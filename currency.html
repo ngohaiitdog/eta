@@ -107,7 +107,8 @@
 		var BTCbuy = 0;
 		
 		var WLBaddress = 'https://www.cmbwinglungbank.com/ibanking/CnCoFiiTtrateDsp.jsp';
-		var HangSengaddress = 'https://rbwm-api.hsbc.com.hk/pws-hk-hase-rates-papi-prod-proxy/v1/fxtt-exchange-rates';
+		//var HangSengaddress = 'https://rbwm-api.hsbc.com.hk/pws-hk-hase-rates-papi-prod-proxy/v1/fxtt-exchange-rates';
+		var HangSengaddress = 'https://www.hangseng.com/en-hk/personal/banking/rates/foreign-exchange-rates/';
 		var alphavantageaddress = 'https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=BTC&to_currency=HKD&apikey=' + APIkey;
 
 
@@ -160,8 +161,56 @@
             request.open('GET', WLBaddress);
             request.send();
         };
+	    
+	    
+	    function getHangSeng(){
+            let request = new XMLHttpRequest();
+            let doc = document.implementation.createHTMLDocument();
+            let currencyobjarray = [];
+            let i = -1;
+            //let tre = new HTMLTableElement();
+            //tre.rows.ch
+            request.onload = function() {
+                doc.documentElement.innerHTML = request.responseText;
+                tre = doc.documentElement.getElementsByClass("rwd-table")[1];
+                divc = doc.documentElement.getElementsByTagName("div");
+                for (let y in divc) {
+                    pos = divc[y].innerText.indexOf("更新時間:");
+                    //console.log(pos);
+                    if (pos > -1) {
+                        document.getElementById("WLBlastupdate").innerText = divc[y].innerText.substring(pos+5,pos+25);
+                        break;
+                    }
+                }
+                for (let x in tre.rows) {
+                    if (typeof tre.rows[x] == "object") {
+                        /* {
+							if (tre.rows[x].cells[0].innerText.trim() == "Australian Dollar") {
+								AUDbuy = Number(tre.rows[x].cells[2].innerText.trim());
+								AUDsell = Number(tre.rows[x].cells[3].innerText.trim());                        
+							} else if (tre.rows[x].cells[0].innerText.trim() == "Japanese Yen (per 1,000)") {
+								JPYbuy = Number(tre.rows[x].cells[2].innerText.trim());
+								JPYsell = Number(tre.rows[x].cells[3].innerText.trim());   
+							}	else if (tre.rows[x].cells[0].innerText.trim() == "Euro") {
+                            EURbuy = Number(tre.rows[x].cells[2].innerText.trim());
+                            EURsell = Number(tre.rows[x].cells[3].innerText.trim());                        
+							};
+						}; */
+                        if (tre.rows[x].cells[0].innerText.trim() == "Pound Sterling") {
+                            GBPbuy = Number(tre.rows[x].cells[2].innerText.trim());
+                            GBPsell = Number(tre.rows[x].cells[3].innerText.trim());                        
+                        } 
+                    }
+                };
+				
+				UpdateElements();
+                
+            }
+            request.open('GET', HangSengaddress);
+            request.send();
+        };
 		
-		function getHangSeng(){
+		function getHangSengOld(){
 	
             let request = new XMLHttpRequest();
     
