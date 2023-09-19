@@ -1,0 +1,112 @@
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="robots" content="noindex">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="shortcut icon" sizes="192x192" href="currency-gbp.png">
+    <link rel="icon" sizes="192x192" href="currency-gbp.png">
+    <title>Currency</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+	 <script language="JavaScript">
+
+		var rawdata1;
+		function getData(){
+			let request = new XMLHttpRequest();
+			request.open('GET', 'https://api.octopus.energy/v1/products/AGILE-FLEX-22-11-25/electricity-tariffs/E-1R-AGILE-FLEX-22-11-25-G/standard-unit-rates/');
+            request.responseType = 'json';
+            request.onload = function() {
+				const rawdata = request.response;
+				rawdata1 = rawdata['results'];
+
+				writeTable();
+			
+			}
+			request.send();
+		}
+		
+		function writeTable(sortby){
+			
+			if (sortby == "price"){
+				rawdata1.sort((a,b) => (a.value_inc_vat - b.value_inc_vat));
+			} else {
+				rawdata1.sort((a,b) => (new Date(a.valid_from).getTime() - new Date(b.valid_from).getTime()));
+			}
+			
+			$("#datatable").html("");
+
+			for (let x in rawdata1) {
+				let f = new Date(rawdata1[x].valid_from);
+				let t = new Date(rawdata1[x].valid_to);
+				if (t < new Date()) {
+					c = "past"
+				} else {
+					c = "future"
+				}
+				document.getElementById("datatable").innerHTML+= ("<tr class='" + c + "'><td><span class='date'>" + f.getDate().toString().padStart(2,'0') + "/" + (f.getMonth()+1).toString().padStart(2,'0') + " </span>" + f.getHours().toString().padStart(2, '0') + ":" + f.getMinutes().toString().padStart(2, '0') + "<span class='totime'>-" + t.getHours().toString().padStart(2, '0') + ":" + t.getMinutes().toString().padStart(2, '0') + "</span></td><td>" + rawdata1[x].value_inc_vat.toFixed(2) + "</td></tr>");
+			}
+			$(".past").hide();
+			$(".totime").hide();
+			
+			if (sortby == "price") {
+				$(".date").show()
+			} else {
+				$(".date").hide()
+			}
+			
+		}
+		 
+		 function togglepast(){
+			 
+			 $(".past").toggle();
+		 }
+		 
+		 function sortByPrice(){
+			 writeTable("price");
+		 }
+		 function sortByTime(){
+			 writeTable("time");
+		 }
+		
+
+    </script>
+</head>
+<style>
+	* {
+		font-family: 'Arial' , '微軟正黑體';
+	}
+			
+    table {
+        word-break: keep-all;
+        border-collapse: collapse;
+        box-sizing: border-box;
+        font-family: 'Arial' , '微軟正黑體';
+        padding-bottom: 0;
+        padding-top: 0;
+        margin-bottom: 0;
+        margin-top: 0;
+    }
+
+    .heading {
+	    font-size: 0.8em;
+        margin-bottom: 0;
+        margin-top: 0;
+    }
+
+    td {
+        text-align: center;
+        font-size: 1em;
+        border-width: 1px;
+        border-style: solid;
+		padding: 5px;
+    }
+</style>
+<body onload="getData();">
+    <button onClick="togglepast()">Show/Hide past</button><button onClick="sortByPrice()">Sort by price</button><button onClick="sortByTime()">Sort by time</button>
+		<table id="datatable">
+		</table>
+
+
+   
+</body>
+</html>
