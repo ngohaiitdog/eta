@@ -44,8 +44,10 @@
 					c = "past"
 				} else {
 					c = "future";
-						if (x >= 2 && sortby != 'price') {
-						pricesum.push({"from":new Date(rawdata1[x-2].valid_from), "to":t, "price":(rawdata1[x-2].value_inc_vat+rawdata1[x-1].value_inc_vat+rawdata1[x].value_inc_vat)})
+					if (x >= 2 && sortby != 'price') {
+						if (new Date(rawdata1[x-2].valid_from) >= new Date()){
+						pricesum.push({"from":new Date(rawdata1[x-2].valid_from), "to":t, "price":(rawdata1[x].value_inc_vat+rawdata1[x-1].value_inc_vat+rawdata1[x-2].value_inc_vat)})
+						}
 					}
 				}
 				document.getElementById("datatable").innerHTML+= ("<tr class='" + c + "'><td><span class='date'>" + f.getDate().toString().padStart(2,'0') + "/" + (f.getMonth()+1).toString().padStart(2,'0') + " </span>" + f.getHours().toString().padStart(2, '0') + ":" + f.getMinutes().toString().padStart(2, '0') + "<span class='totime'>-" + t.getHours().toString().padStart(2, '0') + ":" + t.getMinutes().toString().padStart(2, '0') + "</span></td><td>" + rawdata1[x].value_inc_vat.toFixed(2) + "</td></tr>");
