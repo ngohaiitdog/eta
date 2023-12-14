@@ -36,6 +36,7 @@
 			$("#datatable").html("");
 			
 			let pricesum = [];
+			let price_dish = [];
 
 			for (let x in rawdata1) {
 				let f = new Date(rawdata1[x].valid_from);
@@ -49,6 +50,11 @@
 						pricesum.push({"from":new Date(rawdata1[x-2].valid_from), "to":t, "price":(rawdata1[x].value_inc_vat+rawdata1[x-1].value_inc_vat+rawdata1[x-2].value_inc_vat)})
 						}
 					}
+					if (x >= 4 && sortby != 'price') {
+						if (new Date(rawdata1[x-4].valid_from) >= new Date()){
+						price_dish.push({"from":new Date(rawdata1[x-4].valid_from), "to":t, "price":(rawdata1[x].value_inc_vat+rawdata1[x-3].value_inc_vat)})
+						}
+					}
 				}
 				document.getElementById("datatable").innerHTML+= ("<tr class='" + c + "'><td><span class='date'>" + f.getDate().toString().padStart(2,'0') + "/" + (f.getMonth()+1).toString().padStart(2,'0') + " </span>" + f.getHours().toString().padStart(2, '0') + ":" + f.getMinutes().toString().padStart(2, '0') + "<span class='totime'>-" + t.getHours().toString().padStart(2, '0') + ":" + t.getMinutes().toString().padStart(2, '0') + "</span></td><td>" + rawdata1[x].value_inc_vat.toFixed(2) + "</td></tr>");
 				
@@ -58,7 +64,9 @@
 			
 			if (sortby != "price") {
 				pricesum.sort((a,b) => (a.price - b.price));
-				$("#cheapest").html("<tr><td>Cheapest 1.5 hours</td></tr><tr><td>" + pricesum[0].from.getDate().toString().padStart(2,'0') + "/" + (pricesum[0].from.getMonth() + 1).toString().padStart(2,'0') + " " + pricesum[0].from.getHours().toString().padStart(2,'0') + ":" + pricesum[0].from.getMinutes().toString().padStart(2,'0') + "-" + pricesum[0].to.getHours().toString().padStart(2,'0') + ":" + pricesum[0].to.getMinutes().toString().padStart(2,'0') + "</td></tr><tr><td>" + pricesum[0]["price"].toFixed(2).toString() + "</td></tr>");
+				price_dish.sort((a,b) => (a.price - b.price));
+				$("#cheapest").html("<tr><td>Cheapest 1.5 hours</td></tr><tr><td>" + pricesum[0].from.getDate().toString().padStart(2,'0') + "/" + (pricesum[0].from.getMonth() + 1).toString().padStart(2,'0') + " " + pricesum[0].from.getHours().toString().padStart(2,'0') + ":" + pricesum[0].from.getMinutes().toString().padStart(2,'0') + "-" + pricesum[0].to.getHours().toString().padStart(2,'0') + ":" + pricesum[0].to.getMinutes().toString().padStart(2,'0') + "</td></tr><tr><td>" + pricesum[0]["price"].toFixed(2).toString() + "</td></tr>" + "<tr style='height: 30px;'><td style='border-left-style: none;border-right-style: none;'> </td></tr><tr><td>Cheapest dishwashing</td></tr><tr><td> Start at " + price_dish[0].from.getDate().toString().padStart(2,'0') + "/" + (price_dish[0].from.getMonth() + 1).toString().padStart(2,'0') + " " + price_dish[0].from.getHours().toString().padStart(2,'0') + ":" + price_dish[0].from.getMinutes().toString().padStart(2,'0') + "</td></tr><tr><td>" + price_dish[0]["price"].toFixed(2).toString() + "</td></tr>");
+				
 			}
 			$(".past").hide();
 			$(".totime").hide();
@@ -124,8 +132,9 @@
 			<tbody id="datatable"></tbody>
 		</table>
 		<table style="display: inline">
-			<tbody id="cheapest"></tbody>	
-	</table>
+			<tbody id="cheapest"></tbody>
+		</table>
+
 
 
    
