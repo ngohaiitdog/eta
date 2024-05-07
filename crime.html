@@ -26,7 +26,7 @@
                     {"all-crime":0,"anti-social-behaviour":0,"bicycle-theft":0,"burglary":0,"criminal-damage-arson":0,"drugs":0,"other-theft":0,"possession-of-weapons":0,"public-order":0,"robbery":0,"shoplifting":0,"theft-from-the-person":0,"vehicle-crime":0,"violent-crime":0,"other-crime":0}
                 ];
                 crimename = [{"url":"all-crime","name":"All crime"},{"url":"anti-social-behaviour","name":"Anti-social behaviour"},{"url":"bicycle-theft","name":"Bicycle theft"},{"url":"burglary","name":"Burglary"},{"url":"criminal-damage-arson","name":"Criminal damage and arson"},{"url":"drugs","name":"Drugs"},{"url":"other-theft","name":"Other theft"},{"url":"possession-of-weapons","name":"Possession of weapons"},{"url":"public-order","name":"Public order"},{"url":"robbery","name":"Robbery"},{"url":"shoplifting","name":"Shoplifting"},{"url":"theft-from-the-person","name":"Theft from the person"},{"url":"vehicle-crime","name":"Vehicle crime"},{"url":"violent-crime","name":"Violence and sexual offences"},{"url":"other-crime","name":"Other crime"}];
-                for (let i = 0; i<=35; i++){
+                for (let i = 0; i<=47; i++){
                     loaded[i] = false;
                 };
                 GetAllCrimeData();
@@ -59,9 +59,9 @@
             }
 
             function GetAllCrimeData(){
-                for (let y = 2020; y <= 2022; y++){
+                for (let y = 2020; y <= 2023; y++){
                     for (let i = 1; i <= 12; i++){
-                        if ((y<2022) || (i<=6)) {
+                        if ((y<2023) || (i<=6)) {
                             setTimeout(GetCrimeData, (y-2020)*5000, y, i);
                         }
                     }
@@ -74,7 +74,7 @@
                 string1 = "<tr><td>Category</td><td>2020</td><td>2021</td><td>2022</td></tr>";
                 for (let x of crimename){
                     string1 += ("<tr><td>" + x.name + "</td>");
-                    for (let y = 2020; y <= 2022; y++){
+                    for (let y = 2020; y <= 2023; y++){
                         string1 += ("<td>" + crimetype[y-2020][x.url] + "</td>");
                     }
                     string1 += "</tr>";
@@ -83,7 +83,7 @@
             }
 
             function CheckIfAllLoaded(){
-                for (let i = 0; i <= 22; i++){
+                for (let i = 0; i <= 47; i++){
                     if (loaded[i] == false) {
                         allLoaded();
                         return false;
@@ -92,6 +92,7 @@
                 }
                 allLoaded();
                 console.log("all loaded");
+                document.getElementById("msgbox").innerText = "all loaded";
                 return true;
             }
 
@@ -108,5 +109,6 @@
         <table>
             <tbody id="crimetable"></tbody>
         </table>
+        <p id="msgbox"></p>
     </body>
 </html>
