@@ -10,7 +10,7 @@
             var lat = 0;
             var lng = 0;
             var crimename = [];
-            var loaded = new Array(48);
+            var loaded = new Array(36);
             function init(){
                 const urlSearchParams = new URLSearchParams(window.location.search);
                 if ((urlSearchParams.toString() != '') && (urlSearchParams.toString() != 'latlng=')){
@@ -46,23 +46,23 @@
                     if (this.status == 200){
                         const rawdata = request.response;
                         for (let x of rawdata){
-                            crimetype[year-2020][x.category]++;
+                            crimetype[year-2021][x.category]++;
                         }
                         
                         CheckIfAllLoaded();
                     } else {
                         console.log("Error: " + this.status + this.statusText);
                     }
-                    loaded[(year-2020)*12 + month - 1] = true;
+                    loaded[(year-2021)*12 + month - 1] = true;
                 }
                 request.send();
             }
 
             function GetAllCrimeData(){
-                for (let y = 2020; y <= 2023; y++){
+                for (let y = 2021; y <= 2023; y++){
                     for (let i = 1; i <= 12; i++){
                         if ((y<2023) || (i<=6)) {
-                            setTimeout(GetCrimeData, (y-2020)*5000, y, i);
+                            setTimeout(GetCrimeData, (y-2021)*5000, y, i);
                         }
                     }
                 }
@@ -71,11 +71,11 @@
 
             function allLoaded(){
                 let string1 = "";
-                string1 = "<tr><td>Category</td><td>2020</td><td>2021</td><td>2022</td><td>2023</td></tr>";
+                string1 = "<tr><td>Category</td><td>2021</td><td>2022</td><td>2023</td></tr>";
                 for (let x of crimename){
                     string1 += ("<tr><td>" + x.name + "</td>");
-                    for (let y = 2020; y <= 2023; y++){
-                        string1 += ("<td>" + crimetype[y-2020][x.url] + "</td>");
+                    for (let y = 2021; y <= 2023; y++){
+                        string1 += ("<td>" + crimetype[y-2021][x.url] + "</td>");
                     }
                     string1 += "</tr>";
                 }
@@ -109,6 +109,6 @@
         <table>
             <tbody id="crimetable"></tbody>
         </table>
-        <p id="msgbox"></p>
+        <div id="msgbox"></div>
     </body>
 </html>
