@@ -45,9 +45,9 @@
 					c = "past"
 				} else {
 					c = "future";
-					if (x >= 2 && sortby != 'price') {
+					if (x >= 3 && sortby != 'price') {
 						if (new Date(rawdata1[x-2].valid_from) >= new Date()){
-						pricesum.push({"from":new Date(rawdata1[x-2].valid_from), "to":t, "price":(rawdata1[x].value_inc_vat+rawdata1[x-1].value_inc_vat+rawdata1[x-2].value_inc_vat)})
+						pricesum.push({"from":new Date(rawdata1[x-3].valid_from), "to":t, "price":(rawdata1[x].value_inc_vat+rawdata1[x-1].value_inc_vat+rawdata1[x-2].value_inc_vat+rawdata1[x-3].value_inc_vat)})
 						}
 					}
 					if (x >= 4 && sortby != 'price') {
@@ -65,7 +65,7 @@
 			if (sortby != "price") {
 				pricesum.sort((a,b) => (a.price - b.price));
 				price_dish.sort((a,b) => (a.price - b.price));
-				$("#cheapest").html("<tr><td>Cheapest 1.5 hours</td></tr><tr><td>" + pricesum[0].from.getDate().toString().padStart(2,'0') + "/" + (pricesum[0].from.getMonth() + 1).toString().padStart(2,'0') + " " + pricesum[0].from.getHours().toString().padStart(2,'0') + ":" + pricesum[0].from.getMinutes().toString().padStart(2,'0') + "-" + pricesum[0].to.getHours().toString().padStart(2,'0') + ":" + pricesum[0].to.getMinutes().toString().padStart(2,'0') + "</td></tr><tr><td>" + pricesum[0]["price"].toFixed(2).toString() + "</td></tr>" + "<tr style='height: 30px;'><td style='border-left-style: none;border-right-style: none;'> </td></tr><tr><td>Cheapest dishwashing</td></tr><tr><td> Start at " + price_dish[0].from.getDate().toString().padStart(2,'0') + "/" + (price_dish[0].from.getMonth() + 1).toString().padStart(2,'0') + " " + price_dish[0].from.getHours().toString().padStart(2,'0') + ":" + price_dish[0].from.getMinutes().toString().padStart(2,'0') + "</td></tr><tr><td>" + price_dish[0]["price"].toFixed(2).toString() + "</td></tr>");
+				$("#cheapest").html("<tr><td>Cheapest 2 hours</td></tr><tr><td>" + pricesum[0].from.getDate().toString().padStart(2,'0') + "/" + (pricesum[0].from.getMonth() + 1).toString().padStart(2,'0') + " " + pricesum[0].from.getHours().toString().padStart(2,'0') + ":" + pricesum[0].from.getMinutes().toString().padStart(2,'0') + "-" + pricesum[0].to.getHours().toString().padStart(2,'0') + ":" + pricesum[0].to.getMinutes().toString().padStart(2,'0') + "</td></tr><tr><td>" + pricesum[0]["price"].toFixed(2).toString() + "</td></tr>" + "<tr style='height: 30px;'><td style='border-left-style: none;border-right-style: none;'> </td></tr><tr><td>Cheapest dishwashing</td></tr><tr><td> Start at " + price_dish[0].from.getDate().toString().padStart(2,'0') + "/" + (price_dish[0].from.getMonth() + 1).toString().padStart(2,'0') + " " + price_dish[0].from.getHours().toString().padStart(2,'0') + ":" + price_dish[0].from.getMinutes().toString().padStart(2,'0') + "</td></tr><tr><td>" + price_dish[0]["price"].toFixed(2).toString() + "</td></tr>");
 				
 			}
 			$(".past").hide();
