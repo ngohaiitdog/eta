@@ -13,7 +13,7 @@
 		var rawdata1;
 		function getData(){
 			let request = new XMLHttpRequest();
-			request.open('GET', 'https://api.octopus.energy/v1/products/AGILE-FLEX-22-11-25/electricity-tariffs/E-1R-AGILE-FLEX-22-11-25-G/standard-unit-rates/');
+			request.open('GET', 'https://api.octopus.energy/v1/products/AGILE-23-12-06/electricity-tariffs/E-1R-AGILE-23-12-06-G/standard-unit-rates/');
             request.responseType = 'json';
             request.onload = function() {
 				const rawdata = request.response;
