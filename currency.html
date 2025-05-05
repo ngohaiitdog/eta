@@ -257,7 +257,11 @@
 		function getAlphaVantage(c){
 			let f, t;
 			f = c;
-			t = 'HKD';
+			if (c = 'BTC'){
+				t = 'USD';
+			} else {
+				t = 'HKD';
+			};
 			let request = new XMLHttpRequest();
 			request.open('GET', 'https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=' + f + '&to_currency=' + t + '&apikey=' + APIkey);
            		request.responseType = 'json';
