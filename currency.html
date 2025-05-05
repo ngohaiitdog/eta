@@ -37,7 +37,7 @@
         border-style: solid;
     }
 </style>
-<body onload="getWLB();getHangSeng();getAlphaVantage();">
+<body onload="getAlphaVantage('GBP');getAlphaVantage('BTC');getAlphaVantage('EUR');getAlphaVantage('AUD');getAlphaVantage('JPY');">
     
     <div style="border: solid; border-width: 2.5px">
         <table style="min-width: 100%;">
@@ -94,7 +94,7 @@
         var JPYonhand = 0.0617451583;
         var AUDonhand = 5.614034493;
 		var BTConhand = 240531.8542;
-    	var APIkey = 'N3SYKLZ4BIWNA52D';
+    	var APIkey = 'C5TWG4H7UYUV2AKC';
 		var GBPbuy = 0;
 		var GBPsell = 0;
 		var AUDbuy = 0;
@@ -109,7 +109,7 @@
 		var WLBaddress = 'https://www.cmbwinglungbank.com/ibanking/CnCoFiiTtrateDsp.jsp';
 		//var HangSengaddress = 'https://rbwm-api.hsbc.com.hk/pws-hk-hase-rates-papi-prod-proxy/v1/fxtt-exchange-rates';
 		var HangSengaddress = 'https://www.hangseng.com/en-hk/personal/banking/rates/foreign-exchange-rates/';
-		var alphavantageaddress = 'https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=BTC&to_currency=HKD&apikey=' + APIkey;
+		//var alphavantageaddress = 'https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=BTC&to_currency=HKD&apikey=' + APIkey;
 
 
   
@@ -254,14 +254,35 @@
         };
 		
 		
-		function getAlphaVantage(){
+		function getAlphaVantage(c){
+			let f, t;
+			f = c;
+			t = 'HKD';
 			let request = new XMLHttpRequest();
-			request.open('GET', alphavantageaddress);
-            request.responseType = 'json';
-            request.onload = function() {
+			request.open('GET', 'https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=' + f + '&to_currency=' + t + '&apikey=' + APIkey);
+           		request.responseType = 'json';
+            		request.onload = function() {
 				const rawdata = request.response;
-				BTCbuy = Number(rawdata["Realtime Currency Exchange Rate"]["8. Bid Price"]);
-				BTCsell = Number(rawdata["Realtime Currency Exchange Rate"]["9. Ask Price"]);
+				if (c = 'BTC'){
+					BTCbuy = Number(rawdata["Realtime Currency Exchange Rate"]["8. Bid Price"]);
+					BTCsell = Number(rawdata["Realtime Currency Exchange Rate"]["9. Ask Price"]);
+				};
+				if (c = 'AUD'){
+					AUDbuy = Number(rawdata["Realtime Currency Exchange Rate"]["8. Bid Price"]);
+					AUDsell = Number(rawdata["Realtime Currency Exchange Rate"]["9. Ask Price"]);
+				};
+				if (c = 'JPY'){
+					JPYbuy = Number(rawdata["Realtime Currency Exchange Rate"]["8. Bid Price"]);
+					JPYsell = Number(rawdata["Realtime Currency Exchange Rate"]["9. Ask Price"]);
+				};
+				if (c = 'GBP'){
+					GBPbuy = Number(rawdata["Realtime Currency Exchange Rate"]["8. Bid Price"]);
+					GBPsell = Number(rawdata["Realtime Currency Exchange Rate"]["9. Ask Price"]);
+				};
+				if (c = 'EUR'){
+					EURbuy = Number(rawdata["Realtime Currency Exchange Rate"]["8. Bid Price"]);
+					EURsell = Number(rawdata["Realtime Currency Exchange Rate"]["9. Ask Price"]);
+				};
 				UpdateElements();
 				}
 			request.send();
