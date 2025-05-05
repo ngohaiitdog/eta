@@ -257,7 +257,7 @@
 		function getAlphaVantage(c){
 			let f, t;
 			f = c;
-			if (c = 'BTC'){
+			if (c == 'BTC'){
 				t = 'USD';
 			} else {
 				t = 'HKD';
@@ -267,23 +267,23 @@
            		request.responseType = 'json';
             		request.onload = function() {
 				const rawdata = request.response;
-				if (c = 'BTC'){
+				if (c == 'BTC'){
 					BTCbuy = Number(rawdata["Realtime Currency Exchange Rate"]["8. Bid Price"]);
 					BTCsell = Number(rawdata["Realtime Currency Exchange Rate"]["9. Ask Price"]);
 				};
-				if (c = 'AUD'){
+				if (c == 'AUD'){
 					AUDbuy = Number(rawdata["Realtime Currency Exchange Rate"]["8. Bid Price"]);
 					AUDsell = Number(rawdata["Realtime Currency Exchange Rate"]["9. Ask Price"]);
 				};
-				if (c = 'JPY'){
+				if (c == 'JPY'){
 					JPYbuy = Number(rawdata["Realtime Currency Exchange Rate"]["8. Bid Price"]);
 					JPYsell = Number(rawdata["Realtime Currency Exchange Rate"]["9. Ask Price"]);
 				};
-				if (c = 'GBP'){
+				if (c == 'GBP'){
 					GBPbuy = Number(rawdata["Realtime Currency Exchange Rate"]["8. Bid Price"]);
 					GBPsell = Number(rawdata["Realtime Currency Exchange Rate"]["9. Ask Price"]);
 				};
-				if (c = 'EUR'){
+				if (c == 'EUR'){
 					EURbuy = Number(rawdata["Realtime Currency Exchange Rate"]["8. Bid Price"]);
 					EURsell = Number(rawdata["Realtime Currency Exchange Rate"]["9. Ask Price"]);
 				};
